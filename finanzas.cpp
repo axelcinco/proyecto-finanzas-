@@ -3,13 +3,13 @@
 #include<stdlib.h>
  
   using namespace std;
-  int opc,opc2,opc3;
+  int opc2,opc3;
   double monto=0,saldo_efe=0,saldo_tarj=0,saldo_tot=0,saldo_aho=0,tot_comida=0,tot_agulu=0,tot_otros=0;
   int contador=0;
-  
+  char opc;
   double ingresos()
   {
-  	
+  		contador=contador+1;
   	cout<<"ingrese el monto del ingreso: ";cin>>monto;
   	cout<<"1.-pagos en efectivo: "<<endl;
   	cout<<"2.-pagos con tarjeta: "<<endl;
@@ -18,6 +18,7 @@
   	cout<<"digite la opcion que desea: ";cin>>opc2;
   	switch(opc2)
   	{
+  	
   	   case 1:
   	   	      saldo_efe=saldo_efe+monto; 
   	   	      cout<<" saldo en efectivo es: "<< saldo_efe;
@@ -55,10 +56,16 @@
   	
   	cout<<"ingrese el monto que desee retirar ";cin>>monto;
     
-    if(saldo_tot<monto)
+    if(saldo_tot<monto) 
     {
-    	cout<<"no tiene suficiente saldo para retirar esta en numeros rojos "<<endl;
     	
+    	cout<<"no tiene suficiente saldo para retirar esta en numeros rojos  "<<endl;
+    	
+	}
+	else if(monto<=0)
+	{
+		cout<<"digite un numero mayor que 0 "<<endl;
+		
 	}
   	else
   	{
@@ -77,7 +84,7 @@
 		    }
 		    else
 		    {
-		   
+		   contador=contador+1;
 		cout<<" digite 1.- comida "<<endl;
 		cout<<"digite 2.- agua o luz "<<endl;
 		cout<<" digite 3.- otros recursos "<<endl;
@@ -85,7 +92,7 @@
 		
 		switch(opc3)
 		{
-			 
+			 	
 			case 1:
 				     tot_comida=tot_comida+monto;
 				      saldo_efe=saldo_efe-monto; 
@@ -127,13 +134,14 @@
 	    }
 	    else
 	    {
-	   
+	    contador=contador+1;
 	   	cout<<" digite 1.- comida "<<endl;
 		cout<<"digite 2.- agua o luz "<<endl;
 		cout<<" digite 3.- otros recursos "<<endl;
 		cout<<" en que se efectuo su pago???: ";cin>>opc3;
 		switch(opc3)
 		{
+				
 			case 1: 
 		   saldo_tarj=saldo_tarj-monto;
 		   tot_comida=tot_comida+monto;
@@ -172,6 +180,7 @@
 		   }
 		   else
 		   {
+		   		contador=contador+1;
 		   	cout<<" digite 1.- comida "<<endl;
 		    cout<<"digite 2.- agua o luz "<<endl;
 		    cout<<" digite 3.- otros recursos "<<endl;
@@ -179,6 +188,7 @@
 		    switch(opc3)
 		    
 		    {
+		    	
 		    	case 1: 
 		    	     tot_comida=tot_comida+monto;
 		    	     saldo_aho=saldo_aho-monto;
@@ -225,7 +235,111 @@
   	
   };//aqui termina la funcion retiro 
   
-   
+   double transfe()
+   {
+   	  cout<<"ingrese el monto que desea transferir: ";cin>>monto;
+   	  if(saldo_tot<monto)
+   	  {
+   	  	cout<<"no tienes suficiente dinero para realizar la transferencia "<<endl;
+   	 }
+   	else if(monto<=0)
+   	{
+   		cout<<"ingrese un numero positivo o mayor a 0 "<<endl;
+	}
+	
+	else
+	{
+		 cout<<"1.- si su transferencia va hacer en efectivo "<<endl;
+		 cout<<"2.- si su transferencia va hacer en tarjeta "<<endl;
+		 cout<<"3.- si su transferencia va hacer en ahorros "<<endl;
+		 cout<<"4.- salir \n";
+		 cout<<" digite su opcion ";cin>>opc2;
+		 switch(opc2)
+		 {
+		 	case 1:
+		 		if(saldo_efe<monto)
+		 		{
+		 			cout<<"no tienes suficiente dinero para transferir "<<endl;
+				}
+				else
+				{
+					cout<<"1.-  si su transferencia es para la tarjeta "<<endl;
+					cout<<"2.- si su transferencia es para ahorros "<<endl;
+					cout<<"3.- salir "<<endl;
+					cout<<" digite su opcion: ";cin>>opc3;
+					switch(opc3)
+					{
+						case 1:
+						    saldo_efe=saldo_efe-monto;
+						    saldo_tarj=saldo_tarj+monto;
+						    cout<<"transferencia exitosa el nuevo saldo en tarjeta es: "<<saldo_tarj<<endl;
+						    cout<<"transferencia exitosa el nuevo saldo en efectivo es: "<<saldo_efe<<endl;
+						   break;
+						   case 2:
+						   	   saldo_efe=saldo_efe-monto;
+						   	   saldo_aho=saldo_aho+monto;
+						   	    cout<<"transferencia exitosa el nuevo saldo en ahorro es: "<<saldo_aho<<endl;
+						    cout<<"transferencia exitosa el nuevo saldo en efectivo es: "<<saldo_efe<<endl;
+						   	break;
+						   	case 3:
+						   		break;
+						   		break;
+						   	default:
+						   		 cout<<"la opcion es invalida "<<endl;
+						   		 break;						   		 
+						   	  	   
+					}//termina el switch
+					
+				}//aqui termna el if de comparacion del saldo en efectivo
+				 
+		 	 	  break; //aqui termina el caso 1
+		 	case 2:
+		 		if(saldo_tarj<monto)
+		 		{
+		 			cout<<"no tiene suficiente dinero para transferir "<<endl;
+		 			
+				 }
+				 else
+				 {
+				 	cout<<"1.-  si su transferencia es para la efectivo "<<endl;
+					cout<<"2.- si su transferencia es para ahorros "<<endl;
+					cout<<"3.- salir "<<endl;
+					cout<<" digite su opcion: ";cin>>opc3;
+					switch(opc3)
+					{
+						case 1:
+						saldo_tarj=saldo_tarj-monto;
+						saldo_efe=saldo_efe+monto;
+						cout<<"transferencia exitosa el nuevo saldo en tarjeta es: "<<saldo_tarj<<endl;
+						cout<<"transferencia exitosa el nuevo saldo en efectivo es: "<<saldo_efe<<endl;
+						break;
+						
+					}
+					
+				 }//termina el else de comparacion del monto
+		 	   break; //aqui termina el caso 2
+		 	   
+		 	case 3:
+		 	   	break;
+		 	case 4:
+		 		 break;
+		 		 break;
+		 	default:
+		 		cout<<"la opcion que digito no existe "<<endl;
+		 		 break;
+		 	   	
+		 	
+		 	
+		 }//aqui termina el switch
+		 
+		
+	}//aqui termina el else del primer if 
+   	  
+   	  
+   	  
+   	
+   	
+   }; //aqui termina la funcion transferencias
    
    
 
@@ -239,7 +353,7 @@ int main()
   
   do
   {
-  	contador=contador+1;
+  
   	cout<<"numeros de transferencias realizadas en el dia: "<<contador<<endl;
     cout<<"total en efectivo que tiene: "<<saldo_efe<<endl;
     cout<<"total de tarjeta que tiene es: "<<saldo_tarj<<endl;
@@ -261,28 +375,29 @@ int main()
   	cout<<"digite 3: transferencia: "<<endl;
   	cout<<"digite 4: salir: "<<endl;
   	cout<<"digite su opcion: ";cin>>opc;
-
+  //entrar=validarcar
   	
   	system("cls");
   	switch(opc)
   	{
-  		case 1: 
+  		case '1': 
   		     cout<<"ingresos: "<<endl;
   		     ingresos();
   		     break;//aqui termina el caso 1
   		     
-  		case 2 :
+  		case '2' :
   			 cout<<"retiros "<<endl;
   			 reti();
   			 break;//aqui termina el caso 2
   		      
   		    
   		       
-		case 3: 
+		case '3': 
 		cout<<"transferencias:"<<endl;
+		transfe();
 		break;
 		
-		case 4:
+		case '4':
 		break;
 		break;
 		default:
