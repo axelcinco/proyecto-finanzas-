@@ -9,8 +9,16 @@
   char opc;
   double ingresos()
   {
-  		contador=contador+1;
-  	cout<<"ingrese el monto del ingreso: ";cin>>monto;
+  	   cout<<"ingrese el monto del ingreso: ";cin>>monto;
+  	    if(monto<=0)
+  	    {
+  	    	cout<<" el monto debe ser mayor que cero "<<endl;
+  	    	
+		}//cierre  de la condicion if 
+		else 
+		{
+		  	contador=contador+1;
+  	
   	cout<<"1.-pagos en efectivo: "<<endl;
   	cout<<"2.-pagos con tarjeta: "<<endl;
   	cout<<"3.-ahorros "<<endl;
@@ -38,12 +46,15 @@
 	    	case 4:
 	    	     break;
 	    		break;
-	     case 5:
+	     default:
 	     	cout<<"opcion invalida "<<endl;
 	     	break;
 	    		
   		
-    }
+    }//cierre del switch
+	}//cierre del else 
+  	   
+  	
   	
   	saldo_tot=saldo_tarj+saldo_efe+saldo_aho;
   	
@@ -313,14 +324,64 @@
 						cout<<"transferencia exitosa el nuevo saldo en tarjeta es: "<<saldo_tarj<<endl;
 						cout<<"transferencia exitosa el nuevo saldo en efectivo es: "<<saldo_efe<<endl;
 						break;
-						
-					}
+						case 2:
+							 saldo_tarj=saldo_tarj-monto;
+							 saldo_aho=saldo_aho+monto;
+						cout<<"transferencia exitosa el nuevo saldo en tarjeta es: "<<saldo_tarj<<endl;
+						cout<<"transferencia exitosa el nuevo saldo en efectivo es: "<<saldo_aho<<endl;
+						break;
+						case 3:
+						 break;
+						 break;
+						 default:
+						 	cout<<"opcion invalida "<<endl;
+						 	break;	
+					} //aqui termina el switch para efectuar la transferencia 
 					
 				 }//termina el else de comparacion del monto
 		 	   break; //aqui termina el caso 2
 		 	   
 		 	case 3:
-		 	   	break;
+		 		  if(saldo_aho<monto)
+		 		  {
+		 		  	cout<<"no tines suficiente ahorros  para tranferir "<<endl;
+		 		  	
+				 }//cierre de la condicion if 
+				 else
+				 {
+				 	cout<<"1.-  si su transferencia es para la tarjeta "<<endl;
+				  cout<<"2.- si su transferencia es para dinero en efectivo "<<endl;
+				 cout<<"3.- salir "<<endl;
+				cout<<" digite su opcion: ";cin>>opc3;
+				switch(opc3)
+				{
+					case 1:
+						saldo_aho=saldo_aho-monto;
+						saldo_tarj=saldo_tarj+monto;
+						cout<<"transferencia exitosa el nuevo saldo en ahorros  es: "<<saldo_aho<<endl;
+						cout<<"transferencia exitosa el nuevo saldo en efectivo  es: "<<saldo_tarj<<endl;
+						
+						break;//fin del caso 1
+						case 2:
+						saldo_aho=saldo_aho-monto;
+						saldo_tarj=saldo_efe+monto;
+						cout<<"transferencia exitosa el nuevo saldo en ahorros  es: "<<saldo_aho<<endl;
+						cout<<"transferencia exitosa el nuevo saldo en efectivo  es: "<<saldo_efe<<endl;
+						break;//fin del caso 2 dentro del else 
+						
+						case 3:
+							break;
+							break;
+						default:
+							cout<<"opcion invalida "<<endl;
+							break;
+							
+					
+				}//fin del switch dentro del caso 3
+				 	
+				 }//cierre del else 
+		 		   
+		 	   	break;//aqui termina el caso 3
 		 	case 4:
 		 		 break;
 		 		 break;
@@ -406,7 +467,7 @@ int main()
 	}//aqui termina el switch
 	system("pause");
 	system("cls");
-  }while(opc!=4);
+  }while(opc!='4');
 	
 	return 0;
 }
