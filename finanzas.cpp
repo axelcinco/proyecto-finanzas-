@@ -4,7 +4,7 @@
  
   using namespace std;
   int opc2,opc3;
-  double monto=0,saldo_efe=0,saldo_tarj=0,saldo_tot=0,saldo_aho=0,tot_comida=0,tot_agulu=0,tot_otros=0;
+  double monto=0,saldo_efe=0,saldo_tarj=0,saldo_tot=0,saldo_aho=0,tot_comida=0,tot_agulu=0,tot_otros=0,saldo_tra=0,saldo_ami=0;
   int contador=0;
   char opc;
   double ingresos()
@@ -388,19 +388,87 @@
 		 	default:
 		 		cout<<"la opcion que digito no existe "<<endl;
 		 		 break;
-		 	   	
-		 	
-		 	
 		 }//aqui termina el switch
 		 
-		
 	}//aqui termina el else del primer if 
    	  
-   	  
-   	  
-   	
-   	
    }; //aqui termina la funcion transferencias
+   
+   double transfe_ex()
+   {
+   	 cout<<"ingrese el monto que se recaudo ";cin>>monto;
+   	 if(monto<=0)
+   	 {
+   	    cout<<"ingrese numeros positivos o mayores que cero "<<endl;
+   	 }
+   	 else
+   	 {
+   	    cout<<" digite 1.- si la transferencia que se realizo fue por pagar trabjos extras "<<endl;
+   	    cout<<" digite 2.- si la transferencia fue pagada por amigos o familiares "<<endl;
+   	    cout<<" 3.- para salir "<<endl;
+   	    cout<<" digite su opcion "; cin>>opc2;
+   	    switch(opc2)
+   	    {
+   	    	case 1:
+   	    		   saldo_tra=saldo_tra+monto;
+   	    		  cout<<"digite 1.- si el pago fue efectivo "<<endl;
+   	    		  cout<<" digite 2.- si el pago fue hacia la tarjeta "<<endl;
+   	    		  cout<<" digite su opcion ";cin>>opc3;
+   	    		  switch(opc3)
+   	    		  {
+   	    		  	case 1:
+   	    		  		saldo_efe+=monto;
+   	    		  		cout<<"transferencia guardada, el saldo en efectivo es de "<<saldo_efe<<endl;
+   	    		  	break;
+   	    		  	case 2:
+   	    		  		saldo_tarj+=monto;
+   	    		  		cout<<"transferencia guardada, el saldo en efectivo es de "<<saldo_tarj<<endl;
+   	    		  	break;
+   	    		  	case 3:
+   	    		  		break;
+   	    		  		break;
+   	    		  	default:
+   	    		  		cout<<"opcion invalida "<<endl;
+   	    		  		break;
+				  }
+   	    	break;//cierre del primer caso
+   	    	case 2:
+   	    		  saldo_ami+=monto;
+   	    		cout<<"digite 1.- si el pago fue efectivo "<<endl;
+   	    		  cout<<" digite 2.- si el pago fue hacia la tarjeta "<<endl;
+   	    		  cout<<" digite su opcion ";cin>>opc3;
+   	    		  switch(opc3)
+   	    		  {
+   	    		  	case 1:
+   	    		  		saldo_efe+=monto;
+   	    		  		cout<<"transferencia guardada, el saldo en efectivo es de "<<saldo_efe<<endl;
+   	    		  	break;
+   	    		  	case 2:
+   	    		  		saldo_tarj+=monto;
+   	    		  		cout<<"transferencia guardada, el saldo en efectivo es de "<<saldo_tarj<<endl;
+   	    		  	break;
+   	    		  	case 3:
+   	    		  		break;
+   	    		  		break;
+   	    		  	default:
+   	    		  		cout<<"opcion invalida "<<endl;
+   	    		  		break;
+				  }//cierre del switch
+   	    		
+   	    		break;//cierre del segundo caso del primer switch
+   	    	case 3:
+   	    		break;
+   	    		break;
+   	    	default:
+   	    		cout<<"opcion invalida "<<endl;
+   	    		break;
+   	    	
+		}//llave que me indica el cierre del switch
+	 }//llave que me indica el cierre del else 
+   	 
+   	
+   }; //aqui termina la funcion transfe extra
+   
    
    
 
@@ -429,12 +497,18 @@ int main()
     
     cout<<"******************************************* "<<endl;
     
+     cout<<" pagos por trabajos extras "<<saldo_tra<<endl;
+     cout<<" pagos que se registraron por deudas de amigos o familiares "<<saldo_ami<<endl;
+    
+    cout<<"******************************************* "<<endl;
+    
     
     cout<<"______________________________"<<endl;
   	cout<<"digite 1: ingresos:"<<endl;
   	cout<<"digite 2: pagos: "<<endl;
   	cout<<"digite 3: transferencia: "<<endl;
-  	cout<<"digite 4: salir: "<<endl;
+  	cout<<" digite 4: para transferencia de trabajos extra o deudas de amigos "<<endl;
+  	cout<<"digite 5: salir: "<<endl;
   	cout<<"digite su opcion: ";cin>>opc;
   //entrar=validarcar
   	
@@ -450,24 +524,27 @@ int main()
   			 cout<<"retiros "<<endl;
   			 reti();
   			 break;//aqui termina el caso 2
-  		      
-  		    
-  		       
-		case '3': 
+  			 
+  		case '3': 
 		cout<<"transferencias:"<<endl;
 		transfe();
 		break;
-		
 		case '4':
+			cout<<"deudas o cobros pagados externos "<<endl;
+			transfe_ex();
+		break;
+		
+		case '5':
 		break;
 		break;
+		
 		default:
 		cout<<"opcion invalida: "<<endl;
 	     break;
 	}//aqui termina el switch
 	system("pause");
 	system("cls");
-  }while(opc!='4');
+  }while(opc!='5');
 	
 	return 0;
 }
