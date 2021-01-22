@@ -1,12 +1,71 @@
 #include<conio.h>
 #include<iostream>   //declaramos la librerias
 #include<stdlib.h>
- 
+#include<fstream> 
   using namespace std;
   int opc2,opc3;
   double monto=0,saldo_efe=0,saldo_tarj=0,saldo_tot=0,saldo_aho=0,tot_comida=0,tot_agulu=0,tot_otros=0,saldo_tra=0,saldo_ami=0;
   int contador=0;
   char opc;
+  string nombre;
+  string nombre_archivo;
+  fstream archivo;
+  
+  
+  void guardar_datos()
+  {
+  	archivo.open(nombre_archivo.c_str());
+  	archivo<<saldo_efe <<'\n';
+  	archivo<<saldo_tarj<<'\n';
+  	archivo<<saldo_aho<<'\n';
+  	archivo<<saldo_tot<<'\n';
+  	archivo<< tot_comida<<'\n';
+  	archivo<<tot_agulu<<'\n';
+  	archivo<<tot_otros<<'\n';
+  	archivo<<saldo_tra<<'\n';
+  	archivo<<saldo_ami<<'\n';
+  	
+  	
+  	
+  	archivo.close();
+  }
+  void leer_datos()
+  {
+  	archivo.open(nombre_archivo.c_str());
+  	archivo>>saldo_efe;
+  	archivo>>saldo_tarj;
+  	archivo>>saldo_aho;
+  	archivo>>saldo_tot;
+  	archivo>> tot_comida;
+  	archivo>>tot_agulu;
+  	archivo>>tot_otros;
+  	archivo>>saldo_tra;
+  	archivo>>saldo_ami;
+  	
+  	
+  	
+  	archivo.close();
+  	
+  }
+  
+   void limpiar_variables()
+   {
+   	  saldo_efe=0;
+   	  saldo_tarj=0;
+   	  saldo_aho=0;
+   	  saldo_tot=0;
+   	  tot_comida=0;
+   	  tot_agulu=0;
+   	  tot_otros=0;
+   	  saldo_tra=0;
+   	  saldo_ami=0;
+   	  
+   	  
+   	
+   }
+  
+
+  
   double ingresos()
   {
   	   cout<<"ingrese el monto del ingreso: ";cin>>monto;
@@ -469,20 +528,9 @@
    	
    }; //aqui termina la funcion transfe extra
    
-   
-   
-
-int main()
-{
-	system("color 0b");
-  cout<<" bienvenido usuario : axel garcia"<<endl;
-  cout<<"_______________________________________"<<endl;
-  
-  
-  
-  do
-  {
-  
+   void consultar_saldos()
+   {
+   	 
   	cout<<"numeros de transferencias realizadas en el dia: "<<contador<<endl;
     cout<<"total en efectivo que tiene: "<<saldo_efe<<endl;
     cout<<"total de tarjeta que tiene es: "<<saldo_tarj<<endl;
@@ -502,13 +550,36 @@ int main()
     
     cout<<"******************************************* "<<endl;
     
+   }
+   
+
+int main()
+{
+	regreso:
+	system("color 0b");
+   
     
-    cout<<"______________________________"<<endl;
+    limpiar_variables();
+  	cout<<" digite su usuario ";cin>>nombre;
+  	nombre_archivo=nombre + ".txt";
+  	system("cls");
+  	archivo.open(nombre_archivo.c_str(),ios::app);
+	archivo.close();
+  
+  do
+  {
+  	 leer_datos();
+  
+     cout<<"****** finanzas personales ******** "<<endl;
+    cout<<"_______________________________________"<<endl;
+  
   	cout<<"digite 1: ingresos:"<<endl;
   	cout<<"digite 2: pagos: "<<endl;
   	cout<<"digite 3: transferencia: "<<endl;
-  	cout<<" digite 4: para transferencia de trabajos extra o deudas de amigos "<<endl;
-  	cout<<"digite 5: salir: "<<endl;
+  	cout<<"digite 4: para transferencia de trabajos extra o deudas de amigos "<<endl;
+  	cout<<"digite 5: para consultar saldos "<<endl;
+  	cout<<"digite 6: cambiar de usuario : "<<endl;
+  	cout<<"digite 7: para cerrar cesion "<<endl;
   	cout<<"digite su opcion: ";cin>>opc;
   //entrar=validarcar
   	
@@ -518,25 +589,39 @@ int main()
   		case '1': 
   		     cout<<"ingresos: "<<endl;
   		     ingresos();
+  		     guardar_datos();
   		     break;//aqui termina el caso 1
   		     
   		case '2' :
   			 cout<<"retiros "<<endl;
   			 reti();
+  			 guardar_datos();
   			 break;//aqui termina el caso 2
   			 
   		case '3': 
 		cout<<"transferencias:"<<endl;
 		transfe();
+		guardar_datos();
 		break;
 		case '4':
 			cout<<"deudas o cobros pagados externos "<<endl;
 			transfe_ex();
+			guardar_datos();
+			
 		break;
 		
 		case '5':
+			consultar_saldos();
+			
 		break;
-		break;
+		
+		case '6':
+			
+			goto regreso;
+			break;
+		case '7':
+			return 0;
+			break;
 		
 		default:
 		cout<<"opcion invalida: "<<endl;
@@ -544,7 +629,8 @@ int main()
 	}//aqui termina el switch
 	system("pause");
 	system("cls");
-  }while(opc!='5');
+  }while(opc!='7');
+  
 	
 	return 0;
 }
