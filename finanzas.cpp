@@ -2,19 +2,24 @@
 #include<iostream>   //declaramos la librerias
 #include<stdlib.h>
 #include<fstream> 
+#include<iomanip>
   using namespace std;
   int opc2,opc3;
   double monto=0,saldo_efe=0,saldo_tarj=0,saldo_tot=0,saldo_aho=0,tot_comida=0,tot_agulu=0,tot_otros=0,saldo_tra=0,saldo_ami=0;
   int contador=0;
-  char opc;
+  int opc;
   string nombre;
   string nombre_archivo;
-  fstream archivo;
-  
+  fstream archivo;        //variables para manipulara archivos 
+   int dia=0,ano=0,mes=0,hora=0,minuts=0;
+   	string archivo2;
+   	bool busqueda=false;
+   	string password="";
   
   void guardar_datos()
   {
   	archivo.open(nombre_archivo.c_str());
+  	archivo<<password<<'\n';
   	archivo<<saldo_efe <<'\n';
   	archivo<<saldo_tarj<<'\n';
   	archivo<<saldo_aho<<'\n';
@@ -32,6 +37,7 @@
   void leer_datos()
   {
   	archivo.open(nombre_archivo.c_str());
+  	archivo>>password;
   	archivo>>saldo_efe;
   	archivo>>saldo_tarj;
   	archivo>>saldo_aho;
@@ -47,6 +53,7 @@
   	archivo.close();
   	
   }
+    
   
    void limpiar_variables()
    {
@@ -63,8 +70,286 @@
    	  
    	
    }
-  
+   
+   void cambio_contra()
+    {
+    	 string aux_password;
+    	
+    		cout<<" Ingrese su password : ";cin>>aux_password;
+  	 	if(password==aux_password)
+  	 	{
+  	 		do
+  	 		{
+	            cout<<"Ingrese el  nuevo Password ";cin>>password;
+	            
+			  
+			}while(password.length()<=3);
+			
+					
+	     }
+  	 
+	   
+	   
+	   
+	   	guardar_datos();
+	}
+   
+   void crear_usuario()
+   {
+   	 string nombre_usuario;
+   	 cout<<" digite su usuario ";cin>>nombre;
+   	 nombre_usuario=nombre + ".txt";
+   	 do
+   	 {
+   	cout<<" digite su password: ";cin>>password;
+	}while(password.length()<=3);
+	archivo.open(nombre_usuario.c_str(),ios::app);
+	archivo<<password<<'\n';
+	archivo.close();
+   	
+   }
+   
+void decision()
+{
+	string respuesta;
+	cout<<" quieres crear un usuario ???? ";cin>>respuesta;
+    if(respuesta=="si")
+    {
+       crear_usuario();
+	}
+	else
+	{
+		return;
+		
+	}
+	
+}
+   
+     void buscar_contra()
+     {
+    //variable para abrir archivo
+ 	 string auxiliar;
+ 	 busqueda=false;
+	
+ 	 archivo.open(nombre_archivo.c_str());
+     archivo>>auxiliar;  
+     if(password==auxiliar)
+     {
+     	busqueda=true;
+     	
+     	
+	 }
+	 archivo.close();
 
+	 }
+   void ingresar_fecha()
+   {
+   	
+   	 
+   	  do
+   	  {
+   	   cout<<" Ingrese el dia: ";cin>>dia;
+	 }while(dia<=0 || dia>=32);
+	 
+	 do
+	 {
+	   	 cout<<"Ingrese el mes: ";cin>>mes;	
+	 }while(mes<=0 || mes>=13);
+	 
+	 do
+	 {
+	 	cout<<"Ingrese el year: ";cin>>ano;
+	 }while(ano<=1980 || ano>=2099);
+    
+     do
+     {
+     	cout<<"Ingrese hora: ";cin>>hora;
+     	
+     	
+	 }while(hora<=0 || hora>=25);
+	 
+	 do
+	 {
+	 	cout<<"Digite los minutos: ";cin>>minuts;
+	 }while(minuts<0 || minuts>=61);
+     
+     if(minuts==60)
+     {
+     	hora+=1;
+     	minuts=0;
+     	
+	 }
+	 if(hora>24)
+	 {
+	 	hora=hora-24;
+	 	
+	 }
+	 else if(hora==24)
+	 {
+	 	hora=0;
+	 }
+	 
+   	
+   }
+  
+void registros()
+{
+	archivo.open(archivo2.c_str(),ios::app);
+	
+
+	
+	
+	 switch(opc)
+	 {
+	 	
+	 	case 1:
+	 		 switch(opc2)
+	 		 {
+	 		 	
+	 		 	case 1:
+	 		 		archivo<<" El monto que se deposito en efectivo fue de "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<" Hora "<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		 	
+	 		 		break;
+	 		 		case 2:
+	 		 			archivo<<" El monto que se deposito en tarjeta fue de "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<" Hora "<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		 			break;
+	 		 		case 3:
+	 		 			archivo<<" El monto que se deposito en ahorros  fue de "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<" Hora "<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		 			break;
+			}
+	 		break;
+	 	
+	 	case 2:
+	 		switch(opc2)
+	 		{
+	 		  	case 1:
+	 		 	
+	 		 		switch(opc3)
+	 		 		{
+	 		 			case 1:
+	 		 					archivo<<" El monto que se gasto en efectivo por comida fue de "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<" Hora "<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		 				break;
+	 		 				case 2:
+	 		 					 	archivo<<" El monto que se gasto en efectivo por agua_luz fue de "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<" Hora "<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		 					break;
+	 		 				case 3:
+	 		 						archivo<<" El monto que se gasto en efectivo en otros recursos fue de "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<" Hora "<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		 					break;
+			    	}
+	 		 		break;
+	 		 		case 2:
+	 		 			archivo<<" El monto que se retiro en tarjeta fue de "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<" Hora "<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		 			switch(opc3)
+	 		 			{
+	 		 				case 1:
+	 		 						archivo<<"Se gasto en tarjeta  por comida fue de "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<" Hora "<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		 					break;
+	 		 			   case 2:
+	 		 			   	archivo<<"Se gasto en tarjeta  por agua luz fue de "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<"Hora"<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		 			   	break;
+	 		 			   	case 3:
+	 		 			   		archivo<<"Se gasto en tarjeta  por  otros recurso fue de "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<"Hora"<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		 			   		break;
+						  }
+	 		 			break;
+	 		 		case 3:
+	 		 			 switch(opc3)
+	 		 			 {
+	 		 			   case 1:
+	 		 			   	 	archivo<<"Se gasto en ahorros  por comida fue de "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<"Hora"<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		 			   	break;
+	 		 			   	case 2:
+	 		 			   		 	archivo<<"Se gasto en ahorros  por agua luz fue de "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<"Hora"<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		 			   		break;
+	 		 			   	case 3:
+	 		 			   		 	archivo<<"Se gasto en ahorros  en otros recursos fue de "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<"Hora"<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		 			   		break;
+						   }
+	 		 			break;	
+			 }
+	 		break;
+	 	
+	 	case 3:
+	 		switch(opc2)
+	 		{
+	 		  case 1:
+	 		  	switch(opc3)
+	 		  	{
+	 		  		case 1:
+	 		  			archivo<<" El monto transferido  ala tarjeta fue  "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<"Hora"<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		  		break;
+	 		  		case 2:
+	 		  				archivo<<" El monto transferido  al ahorros fue  "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<"Hora"<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		  			break;
+				 
+				 }
+	 		  	
+	 		  	break;
+	 		  	case 2:
+	 		  		switch(opc3)
+	 		  		{
+	 		  		  case 1:
+	 		  		  		archivo<<" El monto transferido de la tarjeta  a efectivo fue  "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<"Hora"<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+						 break;
+						case 2:
+								archivo<<" El monto transferido de la tarjeta  ahorros fue de   "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<"Hora"<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+						break;	
+					}
+	 		  	break;
+	 		  		case 3:
+	 		  			switch(opc3)
+	 		  			{
+	 		  				case 1:
+	 		  			archivo<<" El monto transferido de ahorro  a efectivo fue  "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<"Hora"<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		  					break;
+	 		  				case 2:
+	 		  					archivo<<" El monto transferido de ahorro  a tarjeta  fue  "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<"Hora"<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		  					break;
+						}
+	 		  		break;
+	 			
+			 }
+	 		break;
+	 		
+	 		case 4:
+	 			switch(opc2)
+	 		 {
+	 		  
+	 		   case 1:
+	 		   	switch(opc3)
+	 		   	{
+	 		   		case 1:
+	 		   			 archivo<<"El monto transferido en efectivo por pagos extrar por trabjo fue de "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<"Hora"<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		   		break;
+	 		   		case 2:
+	 		   			archivo<<"El monto transferido en efectivo por deudas  de amigos  fue de "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<"Hora"<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+	 		   			break;
+				}
+	 		   	break;
+	 		   	
+	 		   	case 2:
+	 		   		switch(opc3)
+	 		   		{
+	 		   		   case 1:
+	 		   		   	archivo<<"El monto transferido para la tarjeta  por pagos extrar por trabjo fue de "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<"Hora"<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+						   break;
+						case 2:
+							archivo<<"El monto transferido para la tarjeta por pagos extrar por trabjo fue de "<<monto<<" Fecha: "<<setfill('0')<<setw(2)<<dia<<"/"<<setfill('0')<<setw(2)<<mes<<"/"<<ano<<"Hora"<<setfill('0')<<setw(2)<<hora<<":"<<setfill('0')<<setw(2)<<minuts<<endl;
+						break;	
+					}
+	 		     break;
+			  }
+	 		
+	 		break;
+	 		
+	 	
+	 	
+	 }
+	
+	archivo.close();
+
+
+}
   
   double ingresos()
   {
@@ -111,13 +396,15 @@
 	    		
   		
     }//cierre del switch
+    ingresar_fecha();
+    registros();
 	}//cierre del else 
   	   
   	
   	
   	saldo_tot=saldo_tarj+saldo_efe+saldo_aho;
   	
-  	
+  	guardar_datos();
   	
   };//aqui termina la funcion ingresos 
   
@@ -215,11 +502,11 @@
 			case 1: 
 		   saldo_tarj=saldo_tarj-monto;
 		   tot_comida=tot_comida+monto;
-		   cout<<"el total gastado en comida  es de:"<<tot_comida<<endl;
+		   cout<<"El total gastado en comida  es de:"<<tot_comida<<endl;
 		   break;
 		   case 2:
 		   	   tot_agulu=tot_agulu+monto;
-		   	   saldo_tarj-monto;
+		   	   saldo_tarj=saldo_tarj-monto;
 		   	cout<< "total gastado en agua o luz es de: "<<tot_agulu<<endl; 
 		   	break;
 		   	
@@ -296,12 +583,12 @@
   	 	
 	}//aqui termina el switch
 	
-	 
-	 
+	 ingresar_fecha();
+	 registros();
   		
 	}//aqui termina la comparacion else 
   	
-  	
+  	guardar_datos();
   	
   };//aqui termina la funcion retiro 
   
@@ -448,8 +735,11 @@
 		 		cout<<"la opcion que digito no existe "<<endl;
 		 		 break;
 		 }//aqui termina el switch
-		 
+		 ingresar_fecha();
+		 registros();
 	}//aqui termina el else del primer if 
+	
+	guardar_datos();
    	  
    }; //aqui termina la funcion transferencias
    
@@ -523,20 +813,33 @@
    	    		break;
    	    	
 		}//llave que me indica el cierre del switch
+		ingresar_fecha();
+		registros();
 	 }//llave que me indica el cierre del else 
-   	 
+   	 guardar_datos();
    	
    }; //aqui termina la funcion transfe extra
    
    void consultar_saldos()
    {
-   	 
+   	 string auxi_reg;
+   	 cout<<" Registros que se han hecho durante a lo largo del tiempo "<<'\n';
+   	 cout<<"********************************************************** "<<'\n';
+   	  archivo.open(archivo2.c_str());
+   	  while(!archivo.eof())
+   	  {
+   	  	 getline(archivo,auxi_reg);
+   	  	 cout<<auxi_reg<<endl;
+   	  	 
+	 }
+	 archivo.close();
+   	  
   	cout<<"numeros de transferencias realizadas en el dia: "<<contador<<endl;
     cout<<"total en efectivo que tiene: "<<saldo_efe<<endl;
     cout<<"total de tarjeta que tiene es: "<<saldo_tarj<<endl;
     cout<<"total en ahorros que tiene es: "<<saldo_aho<<endl;
-    saldo_tot=saldo_efe+saldo_tarj+saldo_aho;
-    cout<<"el saldo total que tiene en su cuenta es de : "<<saldo_tot<<endl;
+   
+    cout<<"El saldo total que tiene en su cuenta es de : "<<saldo_tot<<endl;
     cout<<"******************************************* "<<endl;
     cout<<"***** pagos efectuados del usuario ******** "<<endl;
     cout<<"total gastado del usuario en comida "<<tot_comida<<endl;
@@ -549,27 +852,36 @@
      cout<<" pagos que se registraron por deudas de amigos o familiares "<<saldo_ami<<endl;
     
     cout<<"******************************************* "<<endl;
-    
+    guardar_datos();
    }
    
 
 int main()
 {
-	regreso:
+	 while(true)
+	 {
+	 	 decision();
+	 	 system("cls");
+	 		regreso:
+		 
 	system("color 0b");
    
     
     limpiar_variables();
   	cout<<" digite su usuario ";cin>>nombre;
+  	cout<<" digite su contraseña: ";cin>>password;
   	nombre_archivo=nombre + ".txt";
   	system("cls");
-  	archivo.open(nombre_archivo.c_str(),ios::app);
-	archivo.close();
-  
-  do
+  	buscar_contra();
+ if(busqueda)
+ {
+    do
   {
+  	 archivo2="registros/" + nombre+ ".txt";
+  	 
+
   	 leer_datos();
-  
+   saldo_tot=saldo_efe+saldo_tarj+saldo_aho;
      cout<<"****** finanzas personales ******** "<<endl;
     cout<<"_______________________________________"<<endl;
   
@@ -578,48 +890,53 @@ int main()
   	cout<<"digite 3: transferencia: "<<endl;
   	cout<<"digite 4: para transferencia de trabajos extra o deudas de amigos "<<endl;
   	cout<<"digite 5: para consultar saldos "<<endl;
-  	cout<<"digite 6: cambiar de usuario : "<<endl;
-  	cout<<"digite 7: para cerrar cesion "<<endl;
+  	cout<<"digite 6: cambiar de usuario  "<<endl;
+  	cout<<"digite 7: para cambiar password "<<endl;
+  	cout<<"digite 8: para cerrar cesion "<<endl;
   	cout<<"digite su opcion: ";cin>>opc;
-  //entrar=validarcar
+ 
   	
   	system("cls");
   	switch(opc)
   	{
-  		case '1': 
+  		case 1: 
   		     cout<<"ingresos: "<<endl;
   		     ingresos();
   		     guardar_datos();
+  		     
   		     break;//aqui termina el caso 1
   		     
-  		case '2' :
+  		case 2 :
   			 cout<<"retiros "<<endl;
   			 reti();
   			 guardar_datos();
   			 break;//aqui termina el caso 2
   			 
-  		case '3': 
+  		case 3: 
 		cout<<"transferencias:"<<endl;
 		transfe();
 		guardar_datos();
 		break;
-		case '4':
+		case 4:
 			cout<<"deudas o cobros pagados externos "<<endl;
 			transfe_ex();
 			guardar_datos();
 			
 		break;
 		
-		case '5':
+		case 5:
 			consultar_saldos();
 			
 		break;
 		
-		case '6':
+		case 6:
 			
 			goto regreso;
 			break;
-		case '7':
+			case 7:
+				cambio_contra();
+				break;
+		case 8:
 			return 0;
 			break;
 		
@@ -629,7 +946,16 @@ int main()
 	}//aqui termina el switch
 	system("pause");
 	system("cls");
-  }while(opc!='7');
+  }while(opc!=8); 	
+ }
+  else
+  {
+  	cout<<" no se encontro el usuario "<<endl;
+  	
+  }
+  system("cls");
+ }//cierre del ciclo while
+
   
 	
 	return 0;
